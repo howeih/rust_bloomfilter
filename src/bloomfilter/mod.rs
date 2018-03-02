@@ -1,4 +1,3 @@
-#![crate_name = "bloomfilter"]
 extern crate bit_vec;
 extern crate num_cpus;
 extern crate rand;
@@ -7,7 +6,6 @@ use std::sync::mpsc::channel;
 use std::thread::JoinHandle;
 use std::sync::mpsc::{Sender, Receiver};
 use std::thread;
-use bit_vec::BitVec;
 use std::f64;
 use std::sync::Arc;
 use std::sync::Mutex;
@@ -15,12 +13,8 @@ use std::collections::hash_map::DefaultHasher;
 use std::collections::hash_map::RandomState;
 use std::hash::{BuildHasher, Hasher};
 
-
-#[cfg(test)]
-use rand::Rng;
-
 pub struct Bloom {
-    bitmap: BitVec,
+    bitmap: bit_vec::BitVec,
     filter_size: usize,
     hash_size: usize,
     hash_functions: Vec<DefaultHasher>,
@@ -54,7 +48,7 @@ impl Bloom {
         let hash_size = Self::optimize_hash_size(filter_size, items_count);
         let hash_functions = Self::init_func_vec(hash_size);
         Self {
-            bitmap: BitVec::from_elem(filter_size, false),
+            bitmap: bit_vec::BitVec::from_elem(filter_size, false),
             filter_size: filter_size,
             hash_size: hash_size,
             hash_functions: hash_functions,
@@ -115,7 +109,7 @@ impl Bloom {
         join_handler.push(t_supplier);
         self.calculate_hash(join_handler, receiver, item)
     }
-    
+
     pub fn set(&mut self, item: &Vec<u8>) {
         let hash_values = self.bloom_hash(item);
         for hash in hash_values {
@@ -124,10 +118,10 @@ impl Bloom {
         }
     }
 
-    pub fn check(&self,  item: &Vec<u8>) -> bool{
+    pub fn check(&self, item: &Vec<u8>) -> bool {
         let hash_values = self.bloom_hash(item);
         for hash in hash_values {
-            let bit_offset = ( hash % self.filter_size as u64) as usize;
+            let bit_offset = (hash % self.filter_size as u64) as usize;
             if self.bitmap.get(bit_offset).unwrap() == false {
                 return false;
             }
@@ -138,23 +132,4 @@ impl Bloom {
     pub fn clear(&mut self) {
         self.bitmap.clear()
     }
-}
-
-#[test]
-fn bloom_test_set() {
-    let mut bloom = Bloom::new(100,0.001);
-    let key: &Vec<u8> = &rand::thread_rng().gen_iter::<u8>().take(25).collect();
-    debug_assert!(bloom.check(key) == false);
-    bloom.set(&key);
-    debug_assert!(bloom.check(key) == true);
-}
-
-#[test]
-fn bloom_test_clear() {
-    let mut bloom = Bloom::new(100,0.001);
-    let key: Vec<u8> = rand::thread_rng().gen_iter::<u8>().take(25).collect();
-    bloom.set(&key);
-    debug_assert!(bloom.check(&key) == true);
-    bloom.clear();
-    debug_assert!(bloom.check(&key) == false);
 }
