@@ -5,7 +5,7 @@ bloom filter written in Rust
 ```
     extern crate bloomfilter;
 
-    let mut bloom = Bloom::new(100,0.001);
+    let mut bloom = bloomfilter::Bloom::new(100,0.001);
     let item = vec![1u8,2u8,3u8];
     bloom.set(&item);
     assert!(bloom.check(&item) == true);

@@ -144,9 +144,9 @@ impl Bloom {
 fn bloom_test_set() {
     let mut bloom = Bloom::new(100,0.001);
     let key: &Vec<u8> = &rand::thread_rng().gen_iter::<u8>().take(25).collect();
-    assert!(bloom.check(key) == false);
+    debug_assert!(bloom.check(key) == false);
     bloom.set(&key);
-    assert!(bloom.check(key) == true);
+    debug_assert!(bloom.check(key) == true);
 }
 
 #[test]
@@ -154,7 +154,7 @@ fn bloom_test_clear() {
     let mut bloom = Bloom::new(100,0.001);
     let key: Vec<u8> = rand::thread_rng().gen_iter::<u8>().take(25).collect();
     bloom.set(&key);
-    assert!(bloom.check(&key) == true);
+    debug_assert!(bloom.check(&key) == true);
     bloom.clear();
-    assert!(bloom.check(&key) == false);
+    debug_assert!(bloom.check(&key) == false);
 }
