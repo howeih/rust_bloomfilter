@@ -1,4 +1,5 @@
 pub mod bloomfilter;
+pub use bloomfilter::Bloom;
 
 #[cfg(test)]
 mod tests {
