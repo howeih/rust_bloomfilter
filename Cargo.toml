@@ -8,6 +8,7 @@ repository = "https://github.com/howeih/bloom_filter"
 
 [lib]
 name = "bloomfilter"
+path = "src/lib.rs"
 
 [dependencies]
 bit-vec = "0.4.4"
