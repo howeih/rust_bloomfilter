@@ -3,8 +3,7 @@ name = "bloomfilter"
 version = "1.0.0"
 authors = ["howard.huang <howeih@gmail.com>"]
 license = "MIT"
-homepage = "https://github.com/howeih/bloom_filter"
-repository = "https://github.com/howeih/bloom_filter"
+repository = "https://github.com/howeih/rust_bloomfilter"
 
 [lib]
 name = "bloomfilter"
