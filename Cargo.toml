@@ -4,6 +4,7 @@ version = "1.0.0"
 authors = ["howard.huang <howeih@gmail.com>"]
 license = "MIT"
 repository = "https://github.com/howeih/rust_bloomfilter"
+description = "Bloomfilter with worker thread."
 
 [lib]
 name = "bloomfilter"
