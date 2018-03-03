@@ -1,6 +1,12 @@
 bloom filter written in Rust
 =================
 
+### Installation:
+Cargo.toml:
+```
+    bloomfilter = { git = "https://github.com/howeih/rust_bloomfilter.git", branch = "master" }
+```
+
 ### Usage :
 ```
     extern crate bloomfilter;
